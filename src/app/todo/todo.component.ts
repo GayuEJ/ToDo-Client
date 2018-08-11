@@ -61,7 +61,7 @@ deleteTodos(event ,index : number):  Observable<any[]> {
             +user, httpOptions)
         }
 updateTodos(event ,index : number, todoDone : boolean):  Observable<any[]> {
-        console.log("canme inside")
+        console.log("came inside")
 
                   var body ={
                     user: this.user,
