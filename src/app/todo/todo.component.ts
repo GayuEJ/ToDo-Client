@@ -1,9 +1,9 @@
-import { Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import { Component, OnInit } from '@angular/core';
+import { Observable } from "rxjs/Observable";
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap,Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 
@@ -20,112 +20,117 @@ const httpOptions = {
 
 @Component({
   selector: "todo-component",
-  templateUrl: 'todo.component.html'})
-export class TodoComponent implements OnInit{
+  templateUrl: 'todo.component.html'
+})
+export class TodoComponent implements OnInit {
   title = 'ToDo-Client';
-  todos : any[] = [];
-  user : string;
+  todos: any[] = [];
+  user: string;
 
 
   constructor(
     private http: HttpClient,
-   private route: ActivatedRoute){ }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
-getHeroes (): Observable<any[]> {
-      return this.http.get<any[]>('http://localhost:3000/todos/'+this.user,httpOptions)
-    }
+  getHeroes(): Observable<any[]> {
+    return this.http.get<any[]>('http://nodejs-ex-test3.192.168.99.100.nip.io/todos/' + this.user, httpOptions)
+  }
 
 
-addTodo(todoText : string):  Observable<any[]> {
-console.log("came inside")
+  addTodo(todoText: string): Observable<any[]> {
+    console.log("came inside")
 
-      var body ={
-        user: this.user,
-        todoName: todoText,
-        todoStatus: false
-      };
+    var body = {
+      user: this.user,
+      todoName: todoText,
+      todoStatus: false
+    };
 
-      const httpOptions = {
+    const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-        return this.http.post<any[]>('http://localhost:3000/todo', body, httpOptions)
-    }
+    return this.http.post<any[]>('http://nodejs-ex-test3.192.168.99.100.nip.io/todo', body, httpOptions)
+  }
 
-deleteTodos(event ,index : number):  Observable<any[]> {
+  deleteTodos(event, index: number): Observable<any[]> {
 
-          var user=this.user
-          const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-        };
-            return this.http.delete<any[]>('http://localhost:3000/todo/'+this.todos[index]._id+'/'
-            +user, httpOptions)
-        }
-updateTodos(event ,index : number, todoDone : boolean):  Observable<any[]> {
-        console.log("came inside")
+    var user = this.user
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.delete<any[]>('http://nodejs-ex-test3.192.168.99.100.nip.io/todo/' + this.todos[index]._id + '/'
+      + user, httpOptions)
+  }
+  updateTodos(event, index: number, todoDone: boolean): Observable<any[]> {
+    console.log("came inside")
 
-                  var body ={
-                    user: this.user,
-                    todoName: this.todos[index].todoName,
-                    todoStatus: todoDone
-                  };
+    var body = {
+      user: this.user,
+      todoName: this.todos[index].todoName,
+      todoStatus: todoDone
+    };
 
-                  const httpOptions = {
-                  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-                };
-                    return this.http.put<any[]>('http://localhost:3000/todo', body, httpOptions)
-                }
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put<any[]>('http://nodejs-ex-test3.192.168.99.100.nip.io/todo', body, httpOptions)
+  }
 
-addTodos(todoText : string){
-  console.log(todoText)
-  this.addTodo(todoText).subscribe( res => {
-    console.log(res)
-  });
-}
-
-updateTodo(event ,index : number, todoDone : boolean){
-  console.log(this.todos[index])
-  this.updateTodos(event,index,todoDone).subscribe( res => {
-    this.getHeroes().subscribe( res => {
-      this.todos=res;
+  addTodos(todoText: string) {
+    console.log(todoText)
+    this.addTodo(todoText).subscribe(res => {
+      console.log(res)
     });
-  });
-}
+  }
 
-deleteTodo(event ,index : number){
-  console.log(this.todos[index])
-  this.deleteTodos(event,index).subscribe( res => {
-    this.getHeroes().subscribe( res => {
-      this.getHeroes().subscribe( res => {
-        this.todos=res;
+  updateTodo(event, index: number, todoDone: boolean) {
+    console.log(this.todos[index])
+    this.updateTodos(event, index, todoDone).subscribe(res => {
+      this.getHeroes().subscribe(res => {
+        this.todos = res;
       });
     });
-  });
-}
+  }
 
-ngOnInit(){
+  deleteTodo(event, index: number) {
+    console.log(this.todos[index])
+    this.deleteTodos(event, index).subscribe(res => {
+      this.getHeroes().subscribe(res => {
+        this.getHeroes().subscribe(res => {
+          this.todos = res;
+        });
+      });
+    });
+  }
 
-let user = this.route.snapshot.paramMap.get('user');
-console.log(user)
-this.user=user
+  logout() {
+      this.router.navigate(['/login']);
+  }
+  ngOnInit() {
 
-  // this.route.paramMap.pipe(
-  //   switchMap((params: ParamMap) => {
-  //     // (+) before `params.get()` turns the string into a number
-  //     console.log(params.get('user'));
-  //     this.getHeroes().subscribe( res => {
-  //       console.log(res)
-  //
-  //       //this.todos=res.todoList;
-  //     });
-  //     //return null
-  //   })
-  // );
-  this.getHeroes().subscribe( res => {
-    console.log(res)
-    this.todos=res;
-  });
+    let user = this.route.snapshot.paramMap.get('user');
+    console.log(user)
+    this.user = user
+
+    // this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) => {
+    //     // (+) before `params.get()` turns the string into a number
+    //     console.log(params.get('user'));
+    //     this.getHeroes().subscribe( res => {
+    //       console.log(res)
+    //
+    //       //this.todos=res.todoList;
+    //     });
+    //     //return null
+    //   })
+    // );
+    this.getHeroes().subscribe(res => {
+      console.log(res)
+      this.todos = res;
+    });
 
 
-}
+  }
 
 }

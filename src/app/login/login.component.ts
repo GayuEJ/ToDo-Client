@@ -59,7 +59,7 @@ loginValidate(loginUser : string, password : string):  Observable<HttpResponse<a
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       };
 
-          return this.http.post<any>('http://localhost:3000/signin', body, httpOptions);
+          return this.http.post<any>('http://nodejs-ex-test3.192.168.99.100.nip.io/signin', body, httpOptions);
       }
 
   ngOnInit() {
