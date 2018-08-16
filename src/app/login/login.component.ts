@@ -49,31 +49,15 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/todo', { user: loginUser }]);
         //  this.router.navigateByUrl('/todo;user=naren180891@gmail.com')
       }
-    });
-  }
-
-    return false;
-  }
-
-  /*login(loginUser: string, password: string) {
-    this.loginValidate(loginUser, password).subscribe(req,res) => {
-      if(res.body.loginUser == '' || res.body.loginUser === undefined){
-        errorMsg.push("please enter email ");
-    }
-     if(res.body.password == '' || res.body.password === undefined){
-       errorMsg.push("please enter password ");
-   })
-      console.log(res);
-      //console.log(res.todoRes.user);
-      if (new String(res.status) == "OK") {
-        this.router.navigate(['/todo', { user: loginUser }]);
-        //  this.router.navigateByUrl('/todo;user=naren180891@gmail.com')
+      else{
+        alert(" Invalid Credentials")
       }
     });
+  }
 
     return false;
   }
-*/
+
 
   loginValidate(loginUser: string, password: string): Observable<HttpResponse<any>> {
 

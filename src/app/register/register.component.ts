@@ -50,13 +50,20 @@ register(userEmail: string, password: string) {
  {
     this.registerUser(userEmail, password).subscribe(res => {
       console.log(res);
-
+      if (new String(res.status) == "200") {
+        this.router.navigate(['/login']);
+        //  this.router.navigateByUrl('/todo;user=naren180891@gmail.com')
+      }if(new String(res.status) == "400"){
+        alert("UserName Already Exists, please choose new one");
+        return false;
+      }
     });
-  this.router.navigate(['/login']);
+
+    return false;
 }
 }
 
-  registerUser(userEmail: string, password: string): Observable<any[]> {
+  registerUser(userEmail: string, password: string): Observable<any> {
 
     var body = {
       user: userEmail,
@@ -67,7 +74,7 @@ register(userEmail: string, password: string) {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    return this.http.post<any[]>('http://nodejs-ex-test3.192.168.99.100.nip.io/register', body, httpOptions)
+    return this.http.post<any>('http://nodejs-ex-test3.192.168.99.100.nip.io/register', body, httpOptions)
     // .pipe(map(response => {
     //   if(response.status == 200)
     //       return response;

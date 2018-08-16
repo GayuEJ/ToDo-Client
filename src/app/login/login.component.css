@@ -1,7 +1,7 @@
-input:required,
+/* input:required,
 textarea:required {
   border-color: red !important;
 }
-input:required + label {
+/* input:required + label {
   color: red;
-}
+} */ 

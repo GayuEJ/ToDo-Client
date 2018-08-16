@@ -1,10 +1,10 @@
 /*<style>
    .mandatory{color:red;}
 </style>*/
-input:required,
-textarea:required {
-  border-color: red !important;
-}
-input:required + label {
+/* input:required */
+ /* textarea:required { */
+  /* border-color: red !important; */
+/* }  */
+/* input:required + label {
   color: red;
-}
+} */
