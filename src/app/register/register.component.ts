@@ -33,14 +33,28 @@ export class RegisterComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) { }
-
+/*
   register(userEmail: string, password: string) {
     this.registerUser(userEmail, password).subscribe(res => {
       console.log(res);
     });
     this.router.navigate(['/login']);
   }
+*/
+register(userEmail: string, password: string) {
+  if(userEmail == '' || userEmail === undefined|| password == '' || password === undefined)
+  {
+    errorMsg.push("please enter email/password ");
+     }
+ else
+ {
+    this.registerUser(userEmail, password).subscribe(res => {
+      console.log(res);
 
+    });
+  this.router.navigate(['/login']);
+}
+}
 
   registerUser(userEmail: string, password: string): Observable<any[]> {
 
